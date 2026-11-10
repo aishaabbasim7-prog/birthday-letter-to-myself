@@ -36,13 +36,12 @@ function showScreen(number) {
 }
 
 function startExperience() {
-    showScreen(2);
+    showScreen(1);
 
     if (!musicPlaying) {
         toggleMusic();
     }
 }
-
 function restart() {
     showScreen(1);
 }
