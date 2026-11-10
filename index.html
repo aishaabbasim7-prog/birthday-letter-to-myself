@@ -1,1 +1,210 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111827">
+    <title>A Chapter Called Me | 11.11</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="stars"></div>
+<div class="ambient-glow"></div>
+
+<header>
+    <div class="brand">A CHAPTER CALLED ME</div>
+    <button id="musicButton" class="music-button"
+            onclick="toggleMusic()">♫ SOUND OFF</button>
+</header>
+
+<main>
+
+    <!-- SCREEN 1: ENTRANCE -->
+    <section class="screen active" id="screen1">
+        <p class="eyebrow">A PERSONAL CELEBRATION</p>
+        <div class="date">11<span>.</span>11</div>
+        <div class="gold-line"></div>
+
+        <h1>Tonight, a new chapter begins.</h1>
+
+        <p class="description">
+            No expectations. No waiting.
+            Just a moment dedicated to the person
+            who has been there through it all.
+        </p>
+
+        <button class="primary-btn" onclick="startExperience()">
+            ENTER MY LITTLE WORLD <span>→</span>
+        </button>
+
+        <p class="bottom-note">MADE BY ME · FOR ME</p>
+    </section>
+
+
+    <!-- SCREEN 2: BIRTHDAY REVEAL -->
+    <section class="screen" id="screen2">
+        <p class="eyebrow">CHAPTER 11 · NOVEMBER 11</p>
+
+        <div class="sparkle">✦</div>
+
+        <p class="small-heading">A LITTLE REMINDER...</p>
+
+        <h1 class="birthday-title">
+            Happy Birthday,<br>
+            <span>Me.</span>
+        </h1>
+
+        <p class="description">
+            Today, I don't wait for someone to make
+            me feel special. I celebrate the person
+            I am, and the person I am becoming.
+        </p>
+
+        <button class="primary-btn" onclick="showScreen(3)">
+            THERE'S MORE TO MY STORY →
+        </button>
+    </section>
+
+
+    <!-- SCREEN 3: LETTER -->
+    <section class="screen" id="screen3">
+        <p class="eyebrow">A LETTER FROM ME, TO ME</p>
+
+        <h1 class="section-title">Dear <span>Me,</span></h1>
+
+        <div class="letter">
+            <p>
+                Another year of life. Another chapter
+                of a story that is still being written.
+            </p>
+
+            <p>
+                I know I have dreams that sometimes
+                feel bigger than the world around me.
+                I have places to see, things to learn,
+                opportunities to discover and a future
+                I want to create with my own hands.
+            </p>
+
+            <p>
+                I hope I never lose my curiosity.
+                I hope I never stop asking questions,
+                creating things, learning new skills
+                and believing that there is more
+                waiting for me beyond what I know today.
+            </p>
+
+            <p>
+                I am proud of every little step,
+                even the ones nobody noticed.
+            </p>
+
+            <p>
+                I don't need to have everything figured
+                out today. I just need to keep going,
+                keep growing and keep choosing myself.
+            </p>
+
+            <p class="signature">
+                With love, always.<br>
+                Me. ♡
+            </p>
+        </div>
+
+        <button class="primary-btn" onclick="showScreen(4)">
+            MY WISHES FOR THIS YEAR →
+        </button>
+    </section>
+
+
+    <!-- SCREEN 4: WISHES -->
+    <section class="screen" id="screen4">
+        <p class="eyebrow">A FEW THINGS I WISH FOR</p>
+
+        <h1 class="section-title">
+            Dear future, <span>I'm ready.</span>
+        </h1>
+
+        <div class="wish-list">
+            <div class="wish">
+                <span>01</span>
+                <p>The courage to pursue bigger dreams.</p>
+            </div>
+
+            <div class="wish">
+                <span>02</span>
+                <p>Opportunities that change my world.</p>
+            </div>
+
+            <div class="wish">
+                <span>03</span>
+                <p>New countries, cultures and adventures.</p>
+            </div>
+
+            <div class="wish">
+                <span>04</span>
+                <p>The knowledge to build something of my own.</p>
+            </div>
+
+            <div class="wish">
+                <span>05</span>
+                <p>Peace, genuine happiness and self-respect.</p>
+            </div>
+
+            <div class="wish">
+                <span>06</span>
+                <p>A life that feels like mine.</p>
+            </div>
+        </div>
+
+        <button class="primary-btn" onclick="showScreen(5)">
+            ONE LAST THING →
+        </button>
+    </section>
+
+
+    <!-- SCREEN 5: FINAL -->
+    <section class="screen" id="screen5">
+        <p class="eyebrow">AND SO, THE STORY CONTINUES...</p>
+
+        <div class="final-star">✧</div>
+
+        <h1 class="final-title">
+            Here's to <span>me.</span>
+        </h1>
+
+        <p class="description">
+            To the dreams I haven't achieved yet,
+            the places I haven't visited,
+            the skills I haven't mastered,
+            and the person I haven't become yet.
+        </p>
+
+        <h2 class="final-message">
+            The best chapters<br>
+            are still unwritten.
+        </h2>
+
+        <div class="gold-line"></div>
+
+        <p class="eyebrow">11 NOVEMBER 2026</p>
+        <p class="signature">Happy Birthday to me. ♡</p>
+
+        <button class="secondary-btn" onclick="restart()">
+            ↺ READ MY STORY AGAIN
+        </button>
+    </section>
+
+</main>
+
+<footer>
+    A LITTLE WORLD CREATED WITH LOVE · 11.11
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
