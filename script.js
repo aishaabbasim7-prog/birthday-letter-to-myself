@@ -1,37 +1,53 @@
 
 /* =====================================
    A CHAPTER CALLED ME
-   BIRTHDAY WEBSITE — MAIN JAVASCRIPT
+   11.11 — BIRTHDAY EDITION
 ===================================== */
 
-// CURRENT SCREEN
 let currentScreen = 0;
 
-// MUSIC VARIABLES
-let audioContext = null;
-let masterVolume = null;
-let musicInterval = null;
-let musicPlaying = false;
-let noteIndex = 0;
-
-// ORIGINAL AMBIENT MELODY
-const melody = [
-    261.63, 329.63, 392.00, 329.63,
-    293.66, 349.23, 440.00, 349.23,
-    261.63, 329.63, 392.00, 523.25,
-    440.00, 392.00, 329.63, 293.66
-];
+// PASSWORD
+const favouriteColour = "blue";
 
 
 /* =====================================
-   1. SCREEN NAVIGATION
+   1. SECRET PASSWORD
+===================================== */
+
+function unlockWorld() {
+
+    const input = document.getElementById("secretAnswer");
+    const message = document.getElementById("passwordMessage");
+
+    const answer = input.value.trim().toLowerCase();
+
+    if (answer === favouriteColour) {
+
+        message.textContent = "You know me well. Welcome ♡";
+        message.style.color = "#638B78";
+
+        setTimeout(() => {
+            showScreen(1);
+        }, 700);
+
+    } else {
+
+        message.textContent = "Not quite! Try again, little detective ✧";
+        message.style.color = "#B46D83";
+
+        input.value = "";
+        input.focus();
+    }
+}
+
+
+/* =====================================
+   2. SCREEN NAVIGATION
 ===================================== */
 
 function showScreen(number) {
 
-    const screens = document.querySelectorAll(".screen");
-
-    screens.forEach(screen => {
+    document.querySelectorAll(".screen").forEach(screen => {
         screen.classList.remove("active");
     });
 
@@ -73,40 +89,60 @@ function restart() {
 
 
 /* =====================================
-   2. ORIGINAL BACKGROUND MUSIC
+   3. ELEGANT ORIGINAL MUSIC
 ===================================== */
 
-function playNote(frequency, duration = 1.2) {
+let audioContext = null;
+let masterVolume = null;
+let musicInterval = null;
+let musicPlaying = false;
+let noteIndex = 0;
+
+
+// Original gentle chord progression
+const melody = [
+    261.63, 329.63, 392.00, 493.88,
+    293.66, 349.23, 440.00, 523.25,
+    261.63, 329.63, 392.00, 523.25,
+    220.00, 329.63, 392.00, 440.00
+];
+
+const bassNotes = [
+    130.81, 146.83, 130.81, 110.00
+];
+
+
+function playNote(frequency, duration = 1.8, volume = 0.065) {
 
     if (!audioContext || !masterVolume) return;
 
     const oscillator = audioContext.createOscillator();
-    const noteVolume = audioContext.createGain();
+    const gain = audioContext.createGain();
 
-    oscillator.type = "triangle";
+    oscillator.type = "sine";
 
     oscillator.frequency.setValueAtTime(
         frequency,
         audioContext.currentTime
     );
 
-    noteVolume.gain.setValueAtTime(
+    gain.gain.setValueAtTime(
         0.0001,
         audioContext.currentTime
     );
 
-    noteVolume.gain.exponentialRampToValueAtTime(
-        0.12,
-        audioContext.currentTime + 0.12
+    gain.gain.exponentialRampToValueAtTime(
+        volume,
+        audioContext.currentTime + 0.25
     );
 
-    noteVolume.gain.exponentialRampToValueAtTime(
+    gain.gain.exponentialRampToValueAtTime(
         0.0001,
         audioContext.currentTime + duration
     );
 
-    oscillator.connect(noteVolume);
-    noteVolume.connect(masterVolume);
+    oscillator.connect(gain);
+    gain.connect(masterVolume);
 
     oscillator.start();
     oscillator.stop(audioContext.currentTime + duration);
@@ -126,7 +162,7 @@ async function toggleMusic() {
             masterVolume.gain.setTargetAtTime(
                 0.0001,
                 audioContext.currentTime,
-                0.15
+                0.2
             );
 
             musicPlaying = false;
@@ -143,38 +179,58 @@ async function toggleMusic() {
                 window.webkitAudioContext;
 
             if (!AudioContextClass) {
-                throw new Error("Audio is not supported by this browser.");
+                throw new Error("Audio is not supported.");
             }
 
             audioContext = new AudioContextClass();
 
             masterVolume = audioContext.createGain();
 
-            masterVolume.gain.value = 0.8;
+            masterVolume.gain.value = 0.65;
 
             masterVolume.connect(audioContext.destination);
         }
 
         await audioContext.resume();
-        masterVolume.gain.setTargetAtTime(0.8,
-        audioContext.currentTime,
-        0.15);
+
+        masterVolume.gain.setTargetAtTime(
+            0.65,
+            audioContext.currentTime,
+            0.15
+        );
 
         musicPlaying = true;
 
         button.textContent = "♫ SOUND ON";
 
-        // Play the first note immediately
-        playNote(392.00, 1.2);
-
         noteIndex = 0;
 
-        // Continue the original melody
+        // First melody note
+        playNote(melody[0], 2);
+
+        // Original repeating melody
         musicInterval = setInterval(() => {
 
             if (!musicPlaying) return;
 
-            playNote(melody[noteIndex], 1.2);
+            playNote(
+                melody[noteIndex],
+                1.8,
+                0.065
+            );
+
+            // Gentle bass note every fourth beat
+            if (noteIndex % 4 === 0) {
+
+                const bassIndex =
+                    Math.floor(noteIndex / 4) % bassNotes.length;
+
+                playNote(
+                    bassNotes[bassIndex],
+                    2.4,
+                    0.035
+                );
+            }
 
             noteIndex = (noteIndex + 1) % melody.length;
 
@@ -192,7 +248,7 @@ async function toggleMusic() {
 
 
 /* =====================================
-   3. BIRTHDAY CELEBRATION
+   4. BIRTHDAY CELEBRATION
 ===================================== */
 
 function celebration() {
@@ -207,18 +263,14 @@ function celebration() {
             symbols[Math.floor(Math.random() * symbols.length)];
 
         particle.style.position = "fixed";
-
         particle.style.left = Math.random() * 100 + "vw";
-
         particle.style.top = "-30px";
-
         particle.style.color = "#D5B77B";
 
         particle.style.fontSize =
             (12 + Math.random() * 20) + "px";
 
         particle.style.pointerEvents = "none";
-
         particle.style.zIndex = "20";
 
         particle.style.transition =
@@ -243,112 +295,33 @@ function celebration() {
 
 
 /* =====================================
-   4. MIDNIGHT COUNTDOWN
-   PAKISTAN TIME — UTC +5
+   5. INITIALIZE WEBSITE
 ===================================== */
 
-const birthdayDate = new Date(
-    "2026-11-11T00:00:00+05:00"
-).getTime();
+function initializeWebsite() {
 
-let countdownTimer = null;
+    showScreen(0);
 
+    const button = document.getElementById("musicButton");
 
-function updateCountdown() {
-
-    const countdown = document.getElementById("countdown");
-
-    const daysElement = document.getElementById("days");
-    const hoursElement = document.getElementById("hours");
-    const minutesElement = document.getElementById("minutes");
-    const secondsElement = document.getElementById("seconds");
-
-    if (
-        !countdown ||
-        !daysElement ||
-        !hoursElement ||
-        !minutesElement ||
-        !secondsElement
-    ) {
-        console.error("Countdown HTML elements are missing.");
-        return;
+    if (button) {
+        button.textContent = "♫ SOUND OFF";
     }
-
-    const now = Date.now();
-
-    const difference = birthdayDate - now;
-
-    // MIDNIGHT HAS ARRIVED
-    if (difference <= 0) {
-
-        clearInterval(countdownTimer);
-
-        countdown.style.display = "none";
-
-        showScreen(1);
-
-        return;
-    }
-
-    // CALCULATE REMAINING TIME
-    const days = Math.floor(
-        difference / (1000 * 60 * 60 * 24)
-    );
-
-    const hours = Math.floor(
-        (difference / (1000 * 60 * 60)) % 24
-    );
-
-    const minutes = Math.floor(
-        (difference / (1000 * 60)) % 60
-    );
-
-    const seconds = Math.floor(
-        (difference / 1000) % 60
-    );
-
-    // DISPLAY TIME
-    daysElement.textContent =
-        String(days).padStart(2, "0");
-
-    hoursElement.textContent =
-        String(hours).padStart(2, "0");
-
-    minutesElement.textContent =
-        String(minutes).padStart(2, "0");
-
-    secondsElement.textContent =
-        String(seconds).padStart(2, "0");
 }
 
 
-/* =====================================
-   5. START COUNTDOWN WHEN PAGE LOADS
-===================================== */
-
-function initializeBirthdayWebsite() {
-
-    updateCountdown();
-
-    countdownTimer = setInterval(
-        updateCountdown,
-        1000
-    );
-
-}
-
-
-// START WEBSITE
 if (document.readyState === "loading") {
 
     document.addEventListener(
         "DOMContentLoaded",
-        initializeBirthdayWebsite
+        initializeWebsite
     );
 
 } else {
 
-    initializeBirthdayWebsite();
+    initializeWebsite();
 
 }
+
+
 
