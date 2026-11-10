@@ -28,52 +28,58 @@
 
 <main>
     
-<!-- SCREEN 0: MIDNIGHT COUNTDOWN -->
+    
+<!-- SCREEN 0: SECRET PASSWORD ENTRANCE -->
 <section class="screen active" id="screen0">
 
-    <p class="eyebrow">11 · 11 · A LITTLE UNIVERSE</p>
+    <p class="eyebrow">A LITTLE SECRET · 11.11</p>
 
     <div class="countdown-decoration">✧ ♡ ✧</div>
 
-    <h1>Something special<br>is almost here...</h1>
+    <h1 class="password-title">
+        Before you<br><span>enter...</span>
+    </h1>
 
     <p class="description">
-        A little countdown to a moment
-        that belongs entirely to me.
+        Only someone who knows me can enter
+        my little world.
     </p>
 
-    <div class="countdown" id="countdown">
+    <div class="password-card">
 
-        <div class="time-box">
-            <span id="days">00</span>
-            <small>DAYS</small>
-        </div>
+        <div class="password-icon">🔐</div>
 
-        <div class="time-box">
-            <span id="hours">00</span>
-            <small>HOURS</small>
-        </div>
+        <h2>One little question</h2>
 
-        <div class="time-box">
-            <span id="minutes">00</span>
-            <small>MINUTES</small>
-        </div>
+        <p>What's my favourite colour?</p>
 
-        <div class="time-box">
-            <span id="seconds">00</span>
-            <small>SECONDS</small>
-        </div>
+        <form onsubmit="event.preventDefault(); unlockWorld();">
+
+            <input
+                type="password"
+                id="secretAnswer"
+                placeholder="Enter your answer..."
+                autocomplete="off"
+                aria-label="Favourite colour"
+            >
+
+            <button type="submit" class="primary-btn">
+                UNLOCK MY LITTLE WORLD →
+            </button>
+
+        </form>
+
+        <p id="passwordMessage" class="password-message">
+            A little secret between the lines ♡
+        </p>
 
     </div>
-
-    <p class="countdown-note">
-        Until the next chapter begins ♡
-    </p>
 
     <div class="countdown-decoration">⭐ 🎀 ⭐</div>
 
 </section>
 
+           
 
     <!-- SCREEN 1: ENTRANCE -->
     <section class="screen" id="screen1">
