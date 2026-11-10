@@ -156,6 +156,9 @@ async function toggleMusic() {
         }
 
         await audioContext.resume();
+        masterVolume.gain.setTargetAtTime(0.8,
+        audioContext.currentTime,
+        0.15);
 
         musicPlaying = true;
 
