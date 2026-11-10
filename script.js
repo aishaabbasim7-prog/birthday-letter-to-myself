@@ -285,7 +285,7 @@ function updateCountdown() {
 
         countdown.style.display = "none";
 
-        showScreen(2);
+        showScreen(1);
 
         return;
     }
