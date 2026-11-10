@@ -781,6 +781,27 @@ footer {
         font-size: 10px;
     }
 
+    
+/* VISITOR FORM */
+
+.visitor-form-container {
+    width: 100%;
+    max-width: 520px;
+    margin: 25px auto;
+    background: #FFF9F2;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(90, 70, 50, 0.08);
+}
+
+.visitor-form-container iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    background: #FFF9F2;
+}
+
+
 }
 
 }
