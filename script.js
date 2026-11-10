@@ -1,13 +1,20 @@
 
-let currentScreen = 1;
+/* =====================================
+   A CHAPTER CALLED ME
+   BIRTHDAY WEBSITE — MAIN JAVASCRIPT
+===================================== */
 
+// CURRENT SCREEN
+let currentScreen = 0;
+
+// MUSIC VARIABLES
 let audioContext = null;
 let masterVolume = null;
 let musicInterval = null;
 let musicPlaying = false;
 let noteIndex = 0;
 
-// Original ambient melody
+// ORIGINAL AMBIENT MELODY
 const melody = [
     261.63, 329.63, 392.00, 329.63,
     293.66, 349.23, 440.00, 349.23,
@@ -15,13 +22,27 @@ const melody = [
     440.00, 392.00, 329.63, 293.66
 ];
 
+
+/* =====================================
+   1. SCREEN NAVIGATION
+===================================== */
+
 function showScreen(number) {
-    document.querySelectorAll(".screen").forEach(screen => {
+
+    const screens = document.querySelectorAll(".screen");
+
+    screens.forEach(screen => {
         screen.classList.remove("active");
     });
 
-    document.getElementById("screen" + number)
-        .classList.add("active");
+    const selectedScreen = document.getElementById("screen" + number);
+
+    if (!selectedScreen) {
+        console.error("Screen not found:", number);
+        return;
+    }
+
+    selectedScreen.classList.add("active");
 
     currentScreen = number;
 
@@ -35,26 +56,39 @@ function showScreen(number) {
     }
 }
 
+
 function startExperience() {
-    showScreen(1);
+
+    showScreen(2);
 
     if (!musicPlaying) {
         toggleMusic();
     }
 }
+
+
 function restart() {
     showScreen(1);
 }
 
-// Create original background music
-function playNote(frequency, duration = 1.3) {
+
+/* =====================================
+   2. ORIGINAL BACKGROUND MUSIC
+===================================== */
+
+function playNote(frequency, duration = 1.2) {
+
     if (!audioContext || !masterVolume) return;
 
     const oscillator = audioContext.createOscillator();
     const noteVolume = audioContext.createGain();
 
-    oscillator.type = "sine";
-    oscillator.frequency.value = frequency;
+    oscillator.type = "triangle";
+
+    oscillator.frequency.setValueAtTime(
+        frequency,
+        audioContext.currentTime
+    );
 
     noteVolume.gain.setValueAtTime(
         0.0001,
@@ -62,8 +96,8 @@ function playNote(frequency, duration = 1.3) {
     );
 
     noteVolume.gain.exponentialRampToValueAtTime(
-        0.045,
-        audioContext.currentTime + 0.15
+        0.12,
+        audioContext.currentTime + 0.12
     );
 
     noteVolume.gain.exponentialRampToValueAtTime(
@@ -78,118 +112,182 @@ function playNote(frequency, duration = 1.3) {
     oscillator.stop(audioContext.currentTime + duration);
 }
 
+
 async function toggleMusic() {
+
     const button = document.getElementById("musicButton");
 
-    if (musicPlaying) {
-        clearInterval(musicInterval);
-
-        masterVolume.gain.setTargetAtTime(
-            0.0001,
-            audioContext.currentTime,
-            0.2
-        );
-
-        musicPlaying = false;
-        button.textContent = "♫ SOUND OFF";
-        return;
-    }
-
     try {
-        if (!audioContext) {
-            const AudioContext =
-                window.AudioContext || window.webkitAudioContext;
 
-            audioContext = new AudioContext();
+        if (musicPlaying) {
+
+            clearInterval(musicInterval);
+
+            masterVolume.gain.setTargetAtTime(
+                0.0001,
+                audioContext.currentTime,
+                0.15
+            );
+
+            musicPlaying = false;
+
+            button.textContent = "♫ SOUND OFF";
+
+            return;
+        }
+
+        if (!audioContext) {
+
+            const AudioContextClass =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContextClass) {
+                throw new Error("Audio is not supported by this browser.");
+            }
+
+            audioContext = new AudioContextClass();
 
             masterVolume = audioContext.createGain();
-            masterVolume.gain.value = 0.7;
+
+            masterVolume.gain.value = 0.8;
+
             masterVolume.connect(audioContext.destination);
         }
 
         await audioContext.resume();
 
-        masterVolume.gain.setTargetAtTime(
-            1,
-            audioContext.currentTime,
-            0.3
-        );
-
         musicPlaying = true;
+
         button.textContent = "♫ SOUND ON";
 
-        playNote(130.81, 3);
+        // Play the first note immediately
+        playNote(392.00, 1.2);
+
         noteIndex = 0;
 
+        // Continue the original melody
         musicInterval = setInterval(() => {
-            playNote(melody[noteIndex]);
+
+            if (!musicPlaying) return;
+
+            playNote(melody[noteIndex], 1.2);
 
             noteIndex = (noteIndex + 1) % melody.length;
-        }, 850);
+
+        }, 900);
 
     } catch (error) {
-        console.log("Audio could not start:", error);
+
+        console.error("Music error:", error);
+
+        musicPlaying = false;
+
         button.textContent = "♫ TRY AGAIN";
     }
 }
 
-// Birthday celebration
+
+/* =====================================
+   3. BIRTHDAY CELEBRATION
+===================================== */
+
 function celebration() {
-    const symbols = ["✦", "✧", "♡", "✦", "✨"];
+
+    const symbols = ["✦", "✧", "♡", "✨", "⭐"];
 
     for (let i = 0; i < 35; i++) {
+
         const particle = document.createElement("div");
 
         particle.textContent =
             symbols[Math.floor(Math.random() * symbols.length)];
 
         particle.style.position = "fixed";
+
         particle.style.left = Math.random() * 100 + "vw";
+
         particle.style.top = "-30px";
+
         particle.style.color = "#D5B77B";
-        particle.style.fontSize = (12 + Math.random() * 20) + "px";
+
+        particle.style.fontSize =
+            (12 + Math.random() * 20) + "px";
+
         particle.style.pointerEvents = "none";
+
         particle.style.zIndex = "20";
-        particle.style.transition = "transform 4s linear, opacity 4s";
+
+        particle.style.transition =
+            "transform 4s linear, opacity 4s";
 
         document.body.appendChild(particle);
 
         requestAnimationFrame(() => {
+
             particle.style.transform =
                 `translateY(${window.innerHeight + 60}px) rotate(360deg)`;
+
             particle.style.opacity = "0";
+
         });
 
         setTimeout(() => {
             particle.remove();
         }, 4100);
     }
-    
+}
 
-// MIDNIGHT COUNTDOWN — PAKISTAN TIME
+
+/* =====================================
+   4. MIDNIGHT COUNTDOWN
+   PAKISTAN TIME — UTC +5
+===================================== */
 
 const birthdayDate = new Date(
     "2026-11-11T00:00:00+05:00"
 ).getTime();
 
-let countdownTimer;
+let countdownTimer = null;
+
 
 function updateCountdown() {
 
+    const countdown = document.getElementById("countdown");
+
+    const daysElement = document.getElementById("days");
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
+
+    if (
+        !countdown ||
+        !daysElement ||
+        !hoursElement ||
+        !minutesElement ||
+        !secondsElement
+    ) {
+        console.error("Countdown HTML elements are missing.");
+        return;
+    }
+
     const now = Date.now();
+
     const difference = birthdayDate - now;
 
+    // MIDNIGHT HAS ARRIVED
     if (difference <= 0) {
 
         clearInterval(countdownTimer);
 
-        document.getElementById("countdown").style.display = "none";
+        countdown.style.display = "none";
 
         showScreen(2);
 
         return;
     }
 
+    // CALCULATE REMAINING TIME
     const days = Math.floor(
         difference / (1000 * 60 * 60 * 24)
     );
@@ -206,19 +304,48 @@ function updateCountdown() {
         (difference / 1000) % 60
     );
 
-    document.getElementById("days").textContent =
+    // DISPLAY TIME
+    daysElement.textContent =
         String(days).padStart(2, "0");
 
-    document.getElementById("hours").textContent =
+    hoursElement.textContent =
         String(hours).padStart(2, "0");
 
-    document.getElementById("minutes").textContent =
+    minutesElement.textContent =
         String(minutes).padStart(2, "0");
 
-    document.getElementById("seconds").textContent =
+    secondsElement.textContent =
         String(seconds).padStart(2, "0");
 }
 
-countdownTimer = setInterval(updateCountdown, 1000);
 
-updateCountdown();
+/* =====================================
+   5. START COUNTDOWN WHEN PAGE LOADS
+===================================== */
+
+function initializeBirthdayWebsite() {
+
+    updateCountdown();
+
+    countdownTimer = setInterval(
+        updateCountdown,
+        1000
+    );
+
+}
+
+
+// START WEBSITE
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeBirthdayWebsite
+    );
+
+} else {
+
+    initializeBirthdayWebsite();
+
+}
+
