@@ -165,14 +165,19 @@ function celebration() {
         }, 4100);
     }
     
+
 // MIDNIGHT COUNTDOWN — PAKISTAN TIME
 
-const birthday = new Date("2026-11-11T00:00:00+05:00");
+const birthdayDate = new Date(
+    "2026-11-11T00:00:00+05:00"
+).getTime();
+
+let countdownTimer;
 
 function updateCountdown() {
 
     const now = Date.now();
-    const difference = birthday.getTime() - now;
+    const difference = birthdayDate - now;
 
     if (difference <= 0) {
 
@@ -180,10 +185,7 @@ function updateCountdown() {
 
         document.getElementById("countdown").style.display = "none";
 
-        // Automatically reveal the birthday screen
         showScreen(2);
-
-        celebration();
 
         return;
     }
@@ -217,9 +219,6 @@ function updateCountdown() {
         String(seconds).padStart(2, "0");
 }
 
+countdownTimer = setInterval(updateCountdown, 1000);
+
 updateCountdown();
-
-const countdownTimer = setInterval(updateCountdown, 1000);
-
-}
-
