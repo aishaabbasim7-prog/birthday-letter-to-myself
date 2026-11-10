@@ -1,1 +1,318 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+    --navy: #111827;
+    --burgundy: #542C3D;
+    --gold: #D5B77B;
+    --ivory: #E9DCCB;
+    --rose: #A68D9A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--navy);
+    color: var(--ivory);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .4;
+    background-image:
+        radial-gradient(#fff 1px, transparent 1px),
+        radial-gradient(#D5B77B 1px, transparent 1px);
+    background-size: 80px 80px, 120px 120px;
+    background-position: 0 0, 40px 35px;
+}
+
+.ambient-glow {
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: var(--burgundy);
+    filter: blur(150px);
+    opacity: .35;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 28px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.brand {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+}
+
+.music-button {
+    background: transparent;
+    border: 1px solid #D5B77B66;
+    color: var(--ivory);
+    border-radius: 30px;
+    padding: 10px 16px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+main {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 110px 22px 85px;
+    z-index: 2;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+    animation: reveal 1s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.eyebrow {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 4px;
+    margin-bottom: 28px;
+}
+
+.date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(100px, 23vw, 170px);
+    color: var(--gold);
+    line-height: 1;
+    margin: 25px 0;
+}
+
+.date span {
+    color: var(--rose);
+}
+
+.gold-line {
+    width: 65px;
+    height: 1px;
+    background: var(--gold);
+    margin: 30px auto;
+}
+
+h1, h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+}
+
+.screen h1 {
+    font-size: clamp(35px, 7vw, 54px);
+    line-height: 1.12;
+    margin: 20px 0;
+}
+
+h1 span, h2 span {
+    color: var(--gold);
+    font-style: italic;
+}
+
+.description {
+    max-width: 460px;
+    margin: 20px auto 30px;
+    color: #C9C1C0;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 2;
+}
+
+.primary-btn, .secondary-btn {
+    background: var(--gold);
+    color: #171923;
+    border: none;
+    padding: 15px 25px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: 20px;
+}
+
+.primary-btn:hover, .secondary-btn:hover {
+    background: var(--ivory);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px #D5B77B30;
+}
+
+.primary-btn span {
+    margin-left: 10px;
+}
+
+.bottom-note {
+    margin-top: 70px;
+    color: var(--rose);
+    font-size: 9px;
+    letter-spacing: 4px;
+}
+
+.sparkle, .final-star {
+    font-size: 55px;
+    color: var(--gold);
+    margin: 20px;
+    animation: glow 3s infinite ease-in-out;
+}
+
+@keyframes glow {
+    50% {
+        opacity: .55;
+        transform: scale(1.12);
+    }
+}
+
+.small-heading {
+    color: var(--rose);
+    letter-spacing: 4px;
+    font-size: 10px;
+}
+
+.birthday-title {
+    font-size: clamp(55px, 12vw, 90px) !important;
+}
+
+.section-title {
+    margin-bottom: 30px !important;
+}
+
+.letter {
+    text-align: left;
+    background: #FFFFFF08;
+    border: 1px solid #D5B77B30;
+    padding: clamp(22px, 5vw, 40px);
+    margin: 25px auto;
+    line-height: 2;
+}
+
+.letter p {
+    color: #D4CAC8;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.signature {
+    color: var(--gold) !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 23px !important;
+    font-style: italic;
+}
+
+.wish-list {
+    text-align: left;
+    margin: 30px auto;
+    max-width: 500px;
+}
+
+.wish {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 17px 5px;
+    border-bottom: 1px solid #D5B77B30;
+}
+
+.wish span {
+    color: var(--gold);
+    font-size: 11px;
+}
+
+.wish p {
+    font-size: 13px;
+    color: #D4CAC8;
+}
+
+.final-title {
+    font-size: clamp(65px, 13vw, 100px) !important;
+}
+
+.final-message {
+    color: var(--ivory);
+    font-size: clamp(28px, 6vw, 43px);
+    font-style: italic;
+    line-height: 1.35;
+    margin: 35px 0;
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+}
+
+footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    color: var(--rose);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+@media(max-width: 480px) {
+    header {
+        padding: 20px 5%;
+    }
+
+    .brand {
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+
+    .music-button {
+        padding: 9px 11px;
+        font-size: 9px;
+    }
+
+    .description {
+        font-size: 13px;
+    }
+
+    .letter p {
+        font-size: 13px;
+    }
+}
+
