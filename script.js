@@ -248,6 +248,156 @@ async function toggleMusic() {
 
 
 /* =====================================
+   LUXURY BIRTHDAY CELEBRATION MUSIC
+===================================== */
+
+let audioContext = null;
+let masterVolume = null;
+let musicInterval = null;
+let musicPlaying = false;
+let beatIndex = 0;
+
+const chords = [
+    [261.63, 329.63, 392.00],
+    [220.00, 261.63, 329.63],
+    [174.61, 220.00, 261.63],
+    [196.00, 246.94, 293.66]
+];
+
+const melody = [
+    523.25, 493.88, 392.00, 440.00,
+    523.25, 587.33, 523.25, 440.00,
+    392.00, 440.00, 493.88, 523.25,
+    659.25, 587.33, 523.25, 493.88
+];
+
+function tone(frequency, duration, volume, type = "sine") {
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+
+    const now = audioContext.currentTime;
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(
+        volume, now + 0.06
+    );
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001, now + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(masterVolume);
+
+    oscillator.start(now);
+    oscillator.stop(now + duration);
+}
+
+function playChord(index) {
+
+    chords[index].forEach(note => {
+        tone(note, 1.8, 0.035, "triangle");
+    });
+}
+
+function playBeat() {
+
+    const step = beatIndex % 16;
+
+    // Gentle rhythmic bass pulse
+    if (step % 4 === 0) {
+        tone(65.41, 0.35, 0.11, "sine");
+    }
+
+    // Warm piano-like melody
+    if (step % 2 === 0) {
+        tone(melody[step], 0.65, 0.065, "triangle");
+    }
+
+    // Sparkling celebratory accents
+    if (step === 3 || step === 11) {
+        tone(1046.50, 0.7, 0.025, "sine");
+    }
+
+    // Chord changes
+    if (step === 0) {
+        playChord(Math.floor(beatIndex / 16) % 4);
+    }
+
+    beatIndex++;
+}
+
+async function toggleMusic() {
+
+    const button = document.getElementById("musicButton");
+
+    try {
+
+        if (musicPlaying) {
+
+            clearInterval(musicInterval);
+
+            masterVolume.gain.setTargetAtTime(
+                0.0001,
+                audioContext.currentTime,
+                0.2
+            );
+
+            musicPlaying = false;
+            button.textContent = "♫ SOUND OFF";
+
+            return;
+        }
+
+        if (!audioContext) {
+
+            const AudioContextClass =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContextClass) {
+                throw new Error("Audio is unsupported.");
+            }
+
+            audioContext = new AudioContextClass();
+
+            masterVolume = audioContext.createGain();
+            masterVolume.gain.value = 0.0001;
+            masterVolume.connect(audioContext.destination);
+        }
+
+        await audioContext.resume();
+
+        masterVolume.gain.setTargetAtTime(
+            0.7,
+            audioContext.currentTime,
+            0.2
+        );
+
+        musicPlaying = true;
+        beatIndex = 0;
+
+        button.textContent = "♫ SOUND ON";
+
+        playBeat();
+
+        musicInterval = setInterval(playBeat, 300);
+
+    } catch (error) {
+
+        console.error("Music error:", error);
+
+        musicPlaying = false;
+        button.textContent = "♫ TRY AGAIN";
+    }
+}
+
+
+
+/* =====================================
    4. BIRTHDAY CELEBRATION
 ===================================== */
 
