@@ -14,6 +14,7 @@ const favouriteColour = "blue";
    1. SECRET PASSWORD
 ===================================== */
 
+
 function unlockWorld() {
     const input = document.getElementById("secretAnswer");
     const message = document.getElementById("passwordMessage");
@@ -22,14 +23,14 @@ function unlockWorld() {
 
     const answer = input.value.trim().toLowerCase();
 
-if (answer === "blue") {
-    message.textContent = "You know me well. Welcome ♡";
-    message.style.color = "#638B78";
+    if (answer === favouriteColour) {
+        message.textContent = "You know me well. Welcome ♡";
+        message.style.color = "#638B78";
 
-    setTimeout(() => {
-        showScreen(1);
-    }, 700);
-}
+        setTimeout(() => {
+            showScreen(1);
+        }, 700);
+
     } else {
         message.textContent = "Not quite! Try again, little detective ✧";
         message.style.color = "#B46D83";
@@ -38,6 +39,7 @@ if (answer === "blue") {
         input.focus();
     }
 }
+
 
 
 /* =====================================
