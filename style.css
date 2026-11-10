@@ -1,112 +1,626 @@
 
-/* NEW PLAYFUL PASTEL THEME */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@500;600&display=swap');
+
+/* =================================
+   1. COLOUR PALETTE
+================================= */
 
 :root {
-    --navy: #FFF3D6;
-    --burgundy: #F4B8AD;
-    --gold: #A27D43;
-    --ivory: #594B60;
-    --rose: #B68AA9;
+    --cream: #FFF3D6;
+    --peach: #F4B8AD;
+    --lavender: #C8B9ED;
+    --yellow: #F5D66E;
+    --blue: #A8C8D8;
+    --purple: #765B88;
+    --rose: #B47A93;
+    --dark: #594B60;
+    --white: #FFFFFF;
+}
+
+/* =================================
+   2. GENERAL STYLING
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
     background:
-        radial-gradient(circle at 15% 20%, #F4B8AD 0%, transparent 35%),
-        radial-gradient(circle at 85% 80%, #C8B9ED 0%, transparent 35%),
-        #FFF3D6;
-    color: #594B60;
+        radial-gradient(
+            circle at 10% 15%,
+            #F4B8AD 0%,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            #C8B9ED 0%,
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #FFF3D6,
+            #FFE9E0,
+            #F5E8FA
+        );
+
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
 }
 
+/* =================================
+   3. BACKGROUND DECORATION
+================================= */
+
 .stars {
-    opacity: .4;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+
     background-image:
-        radial-gradient(#B68AA9 1px, transparent 1px),
-        radial-gradient(#E6B95F 2px, transparent 2px);
+        radial-gradient(
+            #B68AA9 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            #E6B95F 2px,
+            transparent 2px
+        );
+
+    background-size: 80px 80px, 120px 120px;
+    background-position: 0 0, 40px 35px;
 }
 
 .ambient-glow {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+
     background: #E9B6C9;
-    opacity: .25;
+    filter: blur(130px);
+    opacity: 0.25;
+
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    pointer-events: none;
+    z-index: 0;
 }
 
-.brand, .eyebrow {
-    color: #96749D;
+/* =================================
+   4. HEADER
+================================= */
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    padding: 25px 6%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 10;
 }
 
-.description, .letter p, .wish p {
+.brand {
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    color: var(--purple);
+}
+
+.music-button {
+    background: #FFFFFF80;
+    border: 1px solid #B68AA9;
+    color: var(--purple);
+
+    border-radius: 30px;
+    padding: 10px 17px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.music-button:hover {
+    background: var(--lavender);
+    transform: translateY(-2px);
+}
+
+/* =================================
+   5. MAIN LAYOUT
+================================= */
+
+main {
+    position: relative;
+    z-index: 2;
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 110px 22px 85px;
+}
+
+.screen {
+    display: none;
+
+    width: 100%;
+    max-width: 650px;
+
+    text-align: center;
+
+    animation: reveal 0.9s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================================
+   6. HEADINGS AND TEXT
+================================= */
+
+h1, h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+}
+
+.screen h1 {
+    font-size: clamp(38px, 7vw, 58px);
+    line-height: 1.15;
+    margin: 20px 0;
+    color: var(--dark);
+}
+
+h1 span,
+h2 span {
+    color: var(--rose);
+    font-style: italic;
+}
+
+.eyebrow {
+    color: var(--purple);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.description {
+    max-width: 470px;
+    margin: 20px auto 30px;
+
     color: #78677B;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2;
 }
 
-.gold-line {
-    background: #D9AD63;
+.small-heading {
+    color: var(--rose);
+    font-size: 11px;
+    letter-spacing: 4px;
 }
 
-.time-box {
-    background: #F4B8AD;
-    border: 1px solid #FFFFFF;
-    border-radius: 16px;
-    padding: 17px 10px;
-    min-width: 65px;
-    flex: 1;
-    box-shadow: 0 6px 18px #B68AA920;
+/* =================================
+   7. BUTTONS
+================================= */
+
+.primary-btn,
+.secondary-btn {
+    border: none;
+    border-radius: 35px;
+
+    padding: 15px 26px;
+    margin-top: 20px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-btn {
+    background: var(--peach);
+    color: var(--dark);
+    box-shadow: 0 5px 18px #B68AA920;
+}
+
+.primary-btn:hover {
+    background: var(--lavender);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px #B68AA940;
+}
+
+.primary-btn span {
+    margin-left: 10px;
+}
+
+.secondary-btn {
+    background: #FFFFFF80;
+    color: var(--purple);
+    border: 1px solid var(--rose);
+}
+
+.secondary-btn:hover {
+    background: var(--lavender);
+    transform: translateY(-3px);
+}
+
+/* =================================
+   8. COUNTDOWN SCREEN
+================================= */
+
+.date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(100px, 23vw, 165px);
+
+    color: var(--rose);
+    line-height: 1;
+
+    margin: 25px 0;
+}
+
+.date span {
+    color: var(--yellow);
 }
 
 .countdown {
     display: flex;
-    gap: 10px;
-    max-width: 430px;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    max-width: 440px;
+
     margin: 35px auto;
+}
+
+.time-box {
+    flex: 1;
+    min-width: 0;
+
+    background: #F4B8AD;
+    border: 1px solid #FFFFFF;
+    border-radius: 17px;
+
+    padding: 17px 8px;
+
+    box-shadow: 0 7px 20px #B68AA920;
 }
 
 .time-box span {
     display: block;
+
     font-family: 'Cormorant Garamond', serif;
-    font-size: 38px;
-    color: #594B60;
+    font-size: clamp(28px, 6vw, 40px);
+
+    color: var(--dark);
 }
 
 .time-box small {
-    font-size: 9px;
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 8px;
     letter-spacing: 2px;
-    color: #765B88;
+    color: var(--purple);
 }
 
 .countdown-decoration {
-    font-size: 30px;
-    margin: 20px;
+    font-size: 29px;
+    margin: 22px 0;
 }
 
 .countdown-note {
-    color: #96749D;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 23px;
-    font-style: italic;
+    color: var(--purple);
+
+    font-family: 'Caveat', cursive;
+    font-size: 25px;
+}
+
+/* =================================
+   9. BIRTHDAY REVEAL
+================================= */
+
+.sparkle,
+.final-star {
+    color: var(--rose);
+    font-size: 55px;
+    margin: 20px;
+
+    animation: sparkle 3s infinite ease-in-out;
+}
+
+@keyframes sparkle {
+    50% {
+        opacity: 0.5;
+        transform: scale(1.15) rotate(10deg);
+    }
+}
+
+.birthday-title {
+    font-size: clamp(55px, 12vw, 90px) !important;
+    line-height: 1.05 !important;
+}
+
+.birthday-title span {
+    color: var(--rose);
+}
+
+/* =================================
+   10. DIVIDERS AND DECORATION
+================================= */
+
+.gold-line {
+    width: 65px;
+    height: 2px;
+
+    background: var(--yellow);
+
+    margin: 28px auto;
+    border-radius: 10px;
+}
+
+.bottom-note {
+    margin-top: 65px;
+
+    color: var(--purple);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+/* =================================
+   11. PERSONAL LETTER
+================================= */
+
+.section-title {
+    margin-bottom: 30px !important;
 }
 
 .letter {
+    max-width: 550px;
+    margin: 25px auto;
+
+    padding: clamp(23px, 5vw, 40px);
+
+    text-align: left;
+
     background: #FFFFFF90;
     border: 1px solid #E5C8D6;
-    border-radius: 20px;
+    border-radius: 22px;
+
     box-shadow: 0 8px 30px #9D7C9B15;
 }
 
+.letter p {
+    color: #78677B;
+
+    font-size: 14px;
+    line-height: 2;
+
+    margin-bottom: 20px;
+}
+
+.letter .signature {
+    font-family: 'Caveat', cursive;
+    font-size: 25px;
+    color: var(--rose);
+}
+
+/* =================================
+   12. WISHES
+================================= */
+
+.wish-list {
+    max-width: 520px;
+    margin: 30px auto;
+    text-align: left;
+}
+
 .wish {
-    border-color: #E6C8D2;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 18px 10px;
+
+    border-bottom: 1px solid #E6C8D2;
+    transition: 0.3s;
 }
 
-.primary-btn {
-    background: #E7B4C6;
-    color: #594B60;
-    border-radius: 30px;
+.wish:hover {
+    background: #FFFFFF60;
+    border-radius: 12px;
+    padding-left: 18px;
 }
 
-.secondary-btn {
-    color: #96749D;
-    border-color: #B68AA9;
-    border-radius: 30px;
+.wish span {
+    min-width: 45px;
+
+    color: var(--rose);
+    font-size: 12px;
+    font-weight: 600;
 }
+
+.wish p {
+    color: #78677B;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* =================================
+   13. FINAL CELEBRATION
+================================= */
+
+.final-title {
+    font-size: clamp(65px, 13vw, 100px) !important;
+}
+
+.final-message {
+    color: var(--purple);
+
+    font-family: 'Caveat', cursive;
+    font-size: clamp(30px, 7vw, 46px);
+
+    line-height: 1.4;
+    margin: 35px 0;
+}
+
+.signature {
+    color: var(--rose);
+
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+}
+
+/* =================================
+   14. FOOTER
+================================= */
 
 footer {
-    color: #96749D;
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+    padding: 20px;
+
+    color: var(--purple);
+    font-size: 9px;
+    letter-spacing: 2px;
 }
 
+/* =================================
+   15. MOBILE RESPONSIVENESS
+================================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 20px 5%;
+    }
+
+    .brand {
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+
+    .music-button {
+        padding: 9px 12px;
+        font-size: 9px;
+    }
+
+    main {
+        padding: 100px 18px 65px;
+    }
+
+    .screen h1 {
+        font-size: 42px;
+    }
+
+    .description {
+        font-size: 13px;
+        line-height: 1.9;
+    }
+
+    .countdown {
+        gap: 7px;
+    }
+
+    .time-box {
+        padding: 13px 5px;
+        border-radius: 13px;
+    }
+
+    .time-box small {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+
+    .letter {
+        padding: 22px;
+    }
+
+    .letter p {
+        font-size: 13px;
+    }
+
+    .wish {
+        gap: 10px;
+    }
+
+    .wish p {
+        font-size: 12px;
+    }
+
+    .bottom-note {
+        margin-top: 45px;
+    }
+}
+
+/* =================================
+   16. SMALL SCREEN SAFETY
+================================= */
+
+@media (max-width: 350px) {
+
+    .countdown {
+        gap: 5px;
+    }
+
+    .time-box span {
+        font-size: 25px;
+    }
+
+    .time-box small {
+        font-size: 6px;
+    }
+
+    .brand {
+        letter-spacing: 1px;
+    }
+}
+
+
+
+
+    
