@@ -165,5 +165,62 @@ function celebration() {
             particle.remove();
         }, 4100);
     }
+    
+// MIDNIGHT COUNTDOWN — PAKISTAN TIME
+
+const birthday = new Date("2026-11-11T00:00:00+05:00");
+
+function updateCountdown() {
+
+    const now = Date.now();
+    const difference = birthday.getTime() - now;
+
+    if (difference <= 0) {
+
+        clearInterval(countdownTimer);
+
+        document.getElementById("countdown").style.display = "none";
+
+        // Automatically reveal the birthday screen
+        showScreen(2);
+
+        celebration();
+
+        return;
+    }
+
+    const days = Math.floor(
+        difference / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+    );
+
+    const minutes = Math.floor(
+        (difference / (1000 * 60)) % 60
+    );
+
+    const seconds = Math.floor(
+        (difference / 1000) % 60
+    );
+
+    document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
+
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+
+    document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+
+    document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+}
+
+updateCountdown();
+
+const countdownTimer = setInterval(updateCountdown, 1000);
+
 }
 
