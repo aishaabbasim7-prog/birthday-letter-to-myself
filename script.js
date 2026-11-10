@@ -28,7 +28,7 @@ function unlockWorld() {
         message.style.color = "#638B78";
 
         setTimeout(() => {
-            showScreen(1);
+            showScreen(6);
         }, 700);
 
     } else {
