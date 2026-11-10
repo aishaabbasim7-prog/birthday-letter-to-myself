@@ -15,14 +15,14 @@ const favouriteColour = "blue";
 ===================================== */
 
 function unlockWorld() {
-
     const input = document.getElementById("secretAnswer");
     const message = document.getElementById("passwordMessage");
+
+    if (!input || !message) return;
 
     const answer = input.value.trim().toLowerCase();
 
     if (answer === favouriteColour) {
-
         message.textContent = "You know me well. Welcome ♡";
         message.style.color = "#638B78";
 
@@ -31,7 +31,6 @@ function unlockWorld() {
         }, 700);
 
     } else {
-
         message.textContent = "Not quite! Try again, little detective ✧";
         message.style.color = "#B46D83";
 
@@ -46,7 +45,6 @@ function unlockWorld() {
 ===================================== */
 
 function showScreen(number) {
-
     document.querySelectorAll(".screen").forEach(screen => {
         screen.classList.remove("active");
     });
@@ -59,7 +57,6 @@ function showScreen(number) {
     }
 
     selectedScreen.classList.add("active");
-
     currentScreen = number;
 
     window.scrollTo({
@@ -74,7 +71,6 @@ function showScreen(number) {
 
 
 function startExperience() {
-
     showScreen(2);
 
     if (!musicPlaying) {
@@ -89,166 +85,7 @@ function restart() {
 
 
 /* =====================================
-   3. ELEGANT ORIGINAL MUSIC
-===================================== */
-
-let audioContext = null;
-let masterVolume = null;
-let musicInterval = null;
-let musicPlaying = false;
-let noteIndex = 0;
-
-
-// Original gentle chord progression
-const melody = [
-    261.63, 329.63, 392.00, 493.88,
-    293.66, 349.23, 440.00, 523.25,
-    261.63, 329.63, 392.00, 523.25,
-    220.00, 329.63, 392.00, 440.00
-];
-
-const bassNotes = [
-    130.81, 146.83, 130.81, 110.00
-];
-
-
-function playNote(frequency, duration = 1.8, volume = 0.065) {
-
-    if (!audioContext || !masterVolume) return;
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = "sine";
-
-    oscillator.frequency.setValueAtTime(
-        frequency,
-        audioContext.currentTime
-    );
-
-    gain.gain.setValueAtTime(
-        0.0001,
-        audioContext.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        volume,
-        audioContext.currentTime + 0.25
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        audioContext.currentTime + duration
-    );
-
-    oscillator.connect(gain);
-    gain.connect(masterVolume);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
-}
-
-
-async function toggleMusic() {
-
-    const button = document.getElementById("musicButton");
-
-    try {
-
-        if (musicPlaying) {
-
-            clearInterval(musicInterval);
-
-            masterVolume.gain.setTargetAtTime(
-                0.0001,
-                audioContext.currentTime,
-                0.2
-            );
-
-            musicPlaying = false;
-
-            button.textContent = "♫ SOUND OFF";
-
-            return;
-        }
-
-        if (!audioContext) {
-
-            const AudioContextClass =
-                window.AudioContext ||
-                window.webkitAudioContext;
-
-            if (!AudioContextClass) {
-                throw new Error("Audio is not supported.");
-            }
-
-            audioContext = new AudioContextClass();
-
-            masterVolume = audioContext.createGain();
-
-            masterVolume.gain.value = 0.65;
-
-            masterVolume.connect(audioContext.destination);
-        }
-
-        await audioContext.resume();
-
-        masterVolume.gain.setTargetAtTime(
-            0.65,
-            audioContext.currentTime,
-            0.15
-        );
-
-        musicPlaying = true;
-
-        button.textContent = "♫ SOUND ON";
-
-        noteIndex = 0;
-
-        // First melody note
-        playNote(melody[0], 2);
-
-        // Original repeating melody
-        musicInterval = setInterval(() => {
-
-            if (!musicPlaying) return;
-
-            playNote(
-                melody[noteIndex],
-                1.8,
-                0.065
-            );
-
-            // Gentle bass note every fourth beat
-            if (noteIndex % 4 === 0) {
-
-                const bassIndex =
-                    Math.floor(noteIndex / 4) % bassNotes.length;
-
-                playNote(
-                    bassNotes[bassIndex],
-                    2.4,
-                    0.035
-                );
-            }
-
-            noteIndex = (noteIndex + 1) % melody.length;
-
-        }, 900);
-
-    } catch (error) {
-
-        console.error("Music error:", error);
-
-        musicPlaying = false;
-
-        button.textContent = "♫ TRY AGAIN";
-    }
-}
-
-
-/* =====================================
-   LUXURY BIRTHDAY CELEBRATION MUSIC
+   3. LUXURY BIRTHDAY CELEBRATION MUSIC
 ===================================== */
 
 let audioContext = null;
@@ -257,6 +94,8 @@ let musicInterval = null;
 let musicPlaying = false;
 let beatIndex = 0;
 
+
+// Warm chord progression
 const chords = [
     [261.63, 329.63, 392.00],
     [220.00, 261.63, 329.63],
@@ -264,6 +103,8 @@ const chords = [
     [196.00, 246.94, 293.66]
 ];
 
+
+// Gentle celebratory melody
 const melody = [
     523.25, 493.88, 392.00, 440.00,
     523.25, 587.33, 523.25, 440.00,
@@ -271,22 +112,28 @@ const melody = [
     659.25, 587.33, 523.25, 493.88
 ];
 
+
 function tone(frequency, duration, volume, type = "sine") {
+    if (!audioContext || !masterVolume) return;
 
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
 
-    oscillator.type = type;
-    oscillator.frequency.value = frequency;
-
     const now = audioContext.currentTime;
 
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, now);
+
     gain.gain.setValueAtTime(0.0001, now);
+
     gain.gain.exponentialRampToValueAtTime(
-        volume, now + 0.06
+        volume,
+        now + 0.06
     );
+
     gain.gain.exponentialRampToValueAtTime(
-        0.0001, now + duration
+        0.0001,
+        now + duration
     );
 
     oscillator.connect(gain);
@@ -296,14 +143,16 @@ function tone(frequency, duration, volume, type = "sine") {
     oscillator.stop(now + duration);
 }
 
-function playChord(index) {
 
+function playChord(index) {
     chords[index].forEach(note => {
         tone(note, 1.8, 0.035, "triangle");
     });
 }
 
+
 function playBeat() {
+    if (!musicPlaying) return;
 
     const step = beatIndex % 16;
 
@@ -317,27 +166,27 @@ function playBeat() {
         tone(melody[step], 0.65, 0.065, "triangle");
     }
 
-    // Sparkling celebratory accents
+    // Soft sparkling accents
     if (step === 3 || step === 11) {
         tone(1046.50, 0.7, 0.025, "sine");
     }
 
     // Chord changes
     if (step === 0) {
-        playChord(Math.floor(beatIndex / 16) % 4);
+        playChord(Math.floor(beatIndex / 16) % chords.length);
     }
 
     beatIndex++;
 }
 
-async function toggleMusic() {
 
+async function toggleMusic() {
     const button = document.getElementById("musicButton");
 
     try {
-
+        // Turn music OFF
         if (musicPlaying) {
-
+            musicPlaying = false;
             clearInterval(musicInterval);
 
             masterVolume.gain.setTargetAtTime(
@@ -346,20 +195,21 @@ async function toggleMusic() {
                 0.2
             );
 
-            musicPlaying = false;
-            button.textContent = "♫ SOUND OFF";
+            if (button) {
+                button.textContent = "♫ SOUND OFF";
+            }
 
             return;
         }
 
+        // Create audio system once
         if (!audioContext) {
-
             const AudioContextClass =
                 window.AudioContext ||
                 window.webkitAudioContext;
 
             if (!AudioContextClass) {
-                throw new Error("Audio is unsupported.");
+                throw new Error("Audio is not supported.");
             }
 
             audioContext = new AudioContextClass();
@@ -371,6 +221,7 @@ async function toggleMusic() {
 
         await audioContext.resume();
 
+        // Fade music in
         masterVolume.gain.setTargetAtTime(
             0.7,
             audioContext.currentTime,
@@ -380,21 +231,24 @@ async function toggleMusic() {
         musicPlaying = true;
         beatIndex = 0;
 
-        button.textContent = "♫ SOUND ON";
+        if (button) {
+            button.textContent = "♫ SOUND ON";
+        }
 
         playBeat();
 
         musicInterval = setInterval(playBeat, 300);
 
     } catch (error) {
-
         console.error("Music error:", error);
 
         musicPlaying = false;
-        button.textContent = "♫ TRY AGAIN";
+
+        if (button) {
+            button.textContent = "♫ TRY AGAIN";
+        }
     }
 }
-
 
 
 /* =====================================
@@ -402,11 +256,9 @@ async function toggleMusic() {
 ===================================== */
 
 function celebration() {
-
     const symbols = ["✦", "✧", "♡", "✨", "⭐"];
 
     for (let i = 0; i < 35; i++) {
-
         const particle = document.createElement("div");
 
         particle.textContent =
@@ -429,12 +281,10 @@ function celebration() {
         document.body.appendChild(particle);
 
         requestAnimationFrame(() => {
-
             particle.style.transform =
                 `translateY(${window.innerHeight + 60}px) rotate(360deg)`;
 
             particle.style.opacity = "0";
-
         });
 
         setTimeout(() => {
@@ -449,7 +299,6 @@ function celebration() {
 ===================================== */
 
 function initializeWebsite() {
-
     showScreen(0);
 
     const button = document.getElementById("musicButton");
@@ -460,18 +309,17 @@ function initializeWebsite() {
 }
 
 
+// Start website when HTML is ready
 if (document.readyState === "loading") {
-
     document.addEventListener(
         "DOMContentLoaded",
         initializeWebsite
     );
 
 } else {
-
     initializeWebsite();
-
 }
+
 
 
 
